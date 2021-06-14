@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>프렌드차이</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<body>
+<h1>브랜드 목록</h1>
+{% if form.is_authenticated %}
+<p>{{ user.username }}</p>
+<a href="{% url 'myapp:logout' %}">로그아웃</a>
+{% else %}
+<a href="{% url 'myapp:login' %}">로그인</a>
+<a href="{% url 'myapp:register' %}">회원가입</a>
+{% endif %}
+<h2>
+    <a href="{% url 'myapp:brand_search' %}">브랜드 검색하기</a>
+</h2>
+{% if brand_list %}
+<ul>
+    {% for brand in brand_list %}
+    <li class="card">{{brand.brand_name}}</li>
+    {% endfor %}
+</ul>
+{% else %}
+<p>No brand to show</p>
+{% endif %}
+
+<div id="main">
+    <h1>Sticky Notes</h1>
+    <textarea v-model="content"></textarea>
+    <button @click="writeMemo">Write!</button>
+    <div>
+        <div class="memo" v-for="memo in memos">
+            <div class="memo-delete-button"></div>
+            {{ memo.content }}
+        </div>
+    </div>
+</div>
+<script>
+  const app = new Vue({
+    el: '#main',
+    data: {
+      url: 'https://http://127.0.0.1:8000/myapp/brand/',
+      content: '',
+      memos: [],
+    },
+    methods: {
+      writeMemo: async function() {
+        const response = await axios.post(this.url,{content : this.content})
+        this.content = ''
+        this.memos.push(response.data)
+      },
+    },
+    created: async function() {
+      const response = await axios.get(this.url)
+      this.memos = response.data
+    }
+  })
+</script>
+
+<style>
+.card{
+    background-color: beige;
+    width: 100%;
+    height: 300px;
+    text-align: left;
+
+    margin-top: 10px;
+}
+</style>
+
+</body>
+</html>

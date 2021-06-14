@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+{% block content %}
+<h1>Searching Brand</h1>
+<br>
+<form action="." method="post">
+    {% csrf_token %}
+    {{ form.as_table }}
+    <input type="submit" value="Submit" class="btn btn-primary btn-sm">
+</form>
+<br>
+{% if brand_list %}
+    {% for brand in brand_list %}
+        <p>{{ brand.brand_id }} {{ brand.mutual }}</p>
+        <a href="{% url 'brand:detail' brand.id %}">{{ brand.brand_name }}</a>
+        <p>브랜드 내용</p>
+    {% endfor %}
+{% elif search_term %}
+    <b><i>Search word {{ search_term }} Not Found</i></b>
+{% endif %}
+{% endblock %}
+</body>
+</html>

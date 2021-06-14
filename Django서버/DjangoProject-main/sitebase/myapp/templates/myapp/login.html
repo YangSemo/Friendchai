@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="ko-kr">
+<head>
+    <meta charset="UTF-8">
+    <title>프렌드차이 로그인</title>
+</head>
+<body>
+<h2>로그인</h2>
+{% block content %}
+<div class="container my-3">
+    {{ message }}
+    <form method="post" action="{% url 'myapp:login' %}">
+        {% csrf_token %}
+        Email
+        <input type="email" name="email" class="form-control" required>
+        </br>
+        password
+        <input type="password" name="password" class="form-control" required>
+        </br>
+        <button type="submit" value="로그인">로그인</button>
+    </form>
+</div>
+{% endblock %}
+</body>
+</html>

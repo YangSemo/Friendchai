@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>프렌드차이 브랜드 상세 정보</title>
+</head>
+<body>
+{% block content %}
+{% if brand %}
+<h1>{{ brand.brand_name}}</h1><h2>상세 정보</h2>
+<div>
+    {{ brand.as_p }}
+    <table>
+        <tr>
+            <td>업종</td>
+            <td>{{brand.sector}}</td>
+            <td>상호</td>
+            <td>{{brand.mutual}}</td>
+        </tr>
+    </table>
+</div>
+{% else %}
+<p>Error..</p>
+{% endif %}
+{% endblock %}
+</body>
+</html>
